@@ -42,7 +42,7 @@ public class CreationClient extends HttpServlet {
     @Override
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
-
+        // Modification test git
         CreationClientForm form = new CreationClientForm( dao );
         Client client = form.creerClient( request );
         HttpSession session = request.getSession();
