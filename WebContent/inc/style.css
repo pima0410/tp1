@@ -1,0 +1,81 @@
+@charset "ISO-8859-1";
+/* Général ------------------------------------------------------------------------------------- */
+
+body, p, legend, label, input {
+    font: normal 8pt verdana, helvetica, sans-serif;
+}
+/*form*/
+
+fieldset{
+	border: 1px solid #0568CD;
+	padding :10px;
+	margin: 10px;
+}
+
+form label {
+    float: left;
+    width: 200px;
+    margin: 3px 0px 0px 0px;
+}
+
+form input {
+    margin: 3px 3px 0px 0px;
+    border: 1px #999 solid;
+}
+
+legend{
+	color: #0568CD;
+	font-weight: bold;
+}
+form input{
+	margin:2px 0 0 0;
+}
+
+
+
+
+/* Style et couleur */
+
+.requis {
+    color: #c00;
+}
+.info {
+    font-style: italic;
+    color: #E8A22B;
+}
+
+.erreur {
+	color: Red;
+}
+
+/* Tableaux */
+
+
+table {
+	border-collapse: collapse;
+}
+
+th{
+	border: 1px solid #0568CD;
+	padding: 5px;
+}
+th.action{
+	border: 1px solid red;
+	padding: 5px;
+	color: red;
+}
+td{
+	border:1px solid #ddd;
+	padding: 5px;
+}
+td.action{
+	text-align: center;
+}
+
+.pair{
+	background-color: #efefef;
+}
+
+.impair{
+	background-color: white;
+}
