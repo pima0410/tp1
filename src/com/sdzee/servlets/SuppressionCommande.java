@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import com.sdzee.beans.Client;
 import com.sdzee.dao.CommandeDao;
+import com.sdzee.dao.DAOFactory;
 import com.sdzee.form.FormUtil;
 
 public class SuppressionCommande extends HttpServlet {
@@ -18,8 +19,15 @@ public class SuppressionCommande extends HttpServlet {
     private static final String PARAM_ID_COMMANDE = "idCommande";
     private static final String SESSION_COMMANDE  = "listCommande";
     private static final String VUE               = "/listeCommandes";
+    private static final String CONF_FACTORY_DAO  = "dao_factory";
 
     private CommandeDao         commandeDao;
+
+    @Override
+    public void init() throws ServletException {
+
+        this.commandeDao = ( (DAOFactory) this.getServletContext().getAttribute( CONF_FACTORY_DAO ) ).getCommandeDao();
+    }
 
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
@@ -32,10 +40,11 @@ public class SuppressionCommande extends HttpServlet {
         if ( valueParam != null && !listCommandeMap.isEmpty() ) {
             Long idCommande = Long.parseLong( valueParam );
             commandeDao.supprimerCommandeParID( idCommande );
-            listCommandeMap.remove( valueParam );
+            listCommandeMap.remove( idCommande );
             session.setAttribute( SESSION_COMMANDE, listCommandeMap );
 
         }
+        session.setAttribute( SESSION_COMMANDE, listCommandeMap );
 
         response.sendRedirect( request.getContextPath() + VUE );
 

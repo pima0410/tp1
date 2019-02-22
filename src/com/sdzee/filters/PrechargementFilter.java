@@ -24,7 +24,7 @@ public class PrechargementFilter extends HttpFilter {
 
     private static final String CONF_DAO_FACTORY      = "dao_factory";
     private static final String SESSION_LIST_CLIENT   = "listClient";
-    private static final String SESSION_LIST_COMMANDE = "listCommandet";
+    private static final String SESSION_LIST_COMMANDE = "listCommande";
     private ClientDao           clientDao;
     private CommandeDao         commandeDao;
 

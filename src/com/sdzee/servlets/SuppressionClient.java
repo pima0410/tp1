@@ -26,7 +26,7 @@ import com.sdzee.form.FormUtil;
 public class SuppressionClient extends HttpServlet {
     private static final long   serialVersionUID = 1L;
 
-    private static final String PARAM_ID_CLIENT  = "nomClient";
+    private static final String PARAM_ID_CLIENT  = "idClient";
     private static final String SESSION_CLIENT   = "listClient";
     private static final String SESSION_COMMANDE = "listCommande";
 
@@ -40,8 +40,10 @@ public class SuppressionClient extends HttpServlet {
     @Override
     public void init() throws ServletException {
         this.daoClient = ( (DAOFactory) this.getServletContext().getAttribute( CONF_FACTORY_DAO ) ).getClientDao();
+        this.daoCommande = ( (DAOFactory) this.getServletContext().getAttribute( CONF_FACTORY_DAO ) ).getCommandeDao();
     }
 
+    @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
 

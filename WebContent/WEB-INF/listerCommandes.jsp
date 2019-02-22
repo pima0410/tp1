@@ -1,4 +1,9 @@
 <%@ page pageEncoding="utf-8" %>
+<%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
+
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,8 +40,8 @@
 			
 			  
 			
-				<td><c:out value="${listCommande.value.client.nom }" /></td>
-				<td><c:out value="${listCommande.value.date }" /></td>
+				<td><c:out value="${listCommande.value.client.nom } ${listCommande.value.client.prenom }" /></td>
+				<td><joda:format value="${listCommande.value.date }"  pattern="dd/MM/yyyy HH:mm:ss" /></td>		
 				<td><c:out value="${listCommande.value.montant }" /></td>
 				<td><c:out value="${listCommande.value.modePaiement }" /></td>
 				<td><c:out value="${listCommande.value.statutPaiement }" /></td>
@@ -44,7 +49,7 @@
 				<td><c:out value="${listCommande.value.statutLivraison }" /></td>
 				
 				
-				<td class="action"><a href="<c:url value="/suppressionCommandes" ><c:param name="dateCommande" value="${listCommande.value.date }"></c:param></c:url>"><img alt="Supprimer" src="<c:url value="/inc/supprimer.png"/>"></a></td>
+				<td class="action"><a href="<c:url value="/suppressionCommandes" ><c:param name="idCommande" value="${listCommande.value['id'] }"></c:param></c:url>"><img alt="Supprimer" src="<c:url value="/inc/supprimer.png"/>"></a></td>
 				
 			</tr>
 			
