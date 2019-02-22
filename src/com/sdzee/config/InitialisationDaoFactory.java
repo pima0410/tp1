@@ -2,9 +2,11 @@ package com.sdzee.config;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 
 import com.sdzee.dao.DAOFactory;
 
+@WebListener
 public class InitialisationDaoFactory implements ServletContextListener {
     private static final String CONF_DAO_FACTORY = "dao_factory";
 

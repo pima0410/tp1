@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,7 +23,7 @@ import com.sdzee.form.FormUtil;
 /**
  * Servlet implementation class SuppressionClient
  */
-
+@WebServlet( name = "SuppressionClients", urlPatterns = "/suppressionClients" )
 public class SuppressionClient extends HttpServlet {
     private static final long   serialVersionUID = 1L;
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import com.sdzee.dao.CommandeDao;
 import com.sdzee.dao.DAOFactory;
 import com.sdzee.form.FormUtil;
 
+@WebServlet( "/suppressionCommandes" )
 public class SuppressionCommande extends HttpServlet {
 
     private static final String PARAM_ID_COMMANDE = "idCommande";

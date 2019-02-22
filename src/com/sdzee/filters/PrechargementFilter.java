@@ -10,6 +10,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -20,6 +21,7 @@ import com.sdzee.dao.ClientDao;
 import com.sdzee.dao.CommandeDao;
 import com.sdzee.dao.DAOFactory;
 
+@WebFilter( urlPatterns = "/*" )
 public class PrechargementFilter extends HttpFilter {
 
     private static final String CONF_DAO_FACTORY      = "dao_factory";

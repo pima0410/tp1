@@ -11,64 +11,15 @@
   </welcome-file-list>
   
   <!--  Servlet declaration -->
-  <servlet>
-    <servlet-name>CreationClient</servlet-name>
-    <servlet-class>com.sdzee.servlets.CreationClient</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>CreationCommande</servlet-name>
-    <servlet-class>com.sdzee.servlets.CreationCommande</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>ListeClients</servlet-name>
-    <servlet-class>com.sdzee.servlets.ListeClients</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>SuppressionClients</servlet-name>
-    <servlet-class>com.sdzee.servlets.SuppressionClient</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>ListeCommandes</servlet-name>
-    <servlet-class>com.sdzee.servlets.ListeCommandes</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>SuppressionCommandes</servlet-name>
-    <servlet-class>com.sdzee.servlets.SuppressionCommande</servlet-class>
-  </servlet>
+ 
+
+
+
+
+
   
   
-  <!--  Servlet Mapping -->
-  <servlet-mapping>
-    <servlet-name>CreationClient</servlet-name>
-    <url-pattern>/creationClient</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>CreationCommande</servlet-name>
-    <url-pattern>/creationCommande</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>ListeClients</servlet-name>
-    <url-pattern>/listeClients</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>SuppressionClients</servlet-name>
-    <url-pattern>/suppressionClients</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>ListeCommandes</servlet-name>
-    <url-pattern>/listeCommandes</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>SuppressionCommandes</servlet-name>
-    <url-pattern>/suppressionCommandes</url-pattern>
-  </servlet-mapping>
-  
-  
-  <!--  listener -->
-  <listener>
-    <listener-class>com.sdzee.config.InitialisationDaoFactory</listener-class>
-</listener>
-  
+
   
   <!--  filter -->
   
@@ -85,10 +36,6 @@
     </init-param>
 </filter>
 
-<filter>
-	<filter-name>Prechargement</filter-name>
-	<filter-class>com.sdzee.filters.PrechargementFilter</filter-class>
-</filter>
 
 
 <filter-mapping>
@@ -97,10 +44,6 @@
 </filter-mapping>
 
 
-<filter-mapping>
-	<filter-name>Prechargement</filter-name>
-	<url-pattern>/*</url-pattern>
-</filter-mapping>
   
   
   <jsp-config>
