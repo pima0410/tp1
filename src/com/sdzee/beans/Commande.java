@@ -4,7 +4,7 @@ public class Commande {
 
     private Long   id;
     private String date;
-    private String montant;
+    private Double montant;
     private String modePaiement;
     private String statutPaiement;
     private String modeLivraison;
@@ -27,11 +27,11 @@ public class Commande {
         this.date = date;
     }
 
-    public String getMontant() {
+    public Double getMontant() {
         return montant;
     }
 
-    public void setMontant( String montant ) {
+    public void setMontant( Double montant ) {
         this.montant = montant;
     }
 
