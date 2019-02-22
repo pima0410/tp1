@@ -3,9 +3,11 @@ package com.sdzee.dao;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+
+import com.jolbox.bonecp.BoneCP;
+import com.jolbox.bonecp.BoneCPConfig;
 
 public class DAOFactory {
     private static final String PROPERTIES_FILE_PATH       = "/com/sdzee/dao/dao.properties";
@@ -15,15 +17,10 @@ public class DAOFactory {
     private static final String PROPERTY_PASSWORD_DATABASE = "motdepasse";
     private static final String PROPERTY_DRIVER_DATABASE   = "driver";
 
-    private String              url;
-    private String              user;
-    private String              password;
+    private BoneCP              connectionPool;
 
-    private DAOFactory( String url, String user, String password ) {
-
-        this.url = url;
-        this.user = user;
-        this.password = password;
+    private DAOFactory( BoneCP cp ) {
+        this.connectionPool = cp;
 
     }
 
@@ -33,6 +30,9 @@ public class DAOFactory {
         String driver;
         String nomUtilisateur;
         String motDePasse;
+
+        BoneCP connectionPool = null;
+
         // récupération des proprietes de connexion database
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         InputStream stream = classLoader.getResourceAsStream( PROPERTIES_FILE_PATH );
@@ -60,16 +60,28 @@ public class DAOFactory {
             throw new DAOConfigurationException( "impossible de trouver le driver de connexion à la base de donnée",
                     e );
         }
+        try {
+            BoneCPConfig confBoneCp = new BoneCPConfig();
+            confBoneCp.setJdbcUrl( url );
+            confBoneCp.setUsername( nomUtilisateur );
+            confBoneCp.setPassword( motDePasse );
 
-        return new DAOFactory( url, nomUtilisateur, motDePasse );
+            confBoneCp.setMinConnectionsPerPartition( 5 );
+            confBoneCp.setMaxConnectionsPerPartition( 10 );
+            confBoneCp.setPartitionCount( 2 );
+
+            connectionPool = new BoneCP( confBoneCp );
+        } catch ( SQLException e ) {
+            e.printStackTrace();
+            throw new DAOConfigurationException( "Impossible de créer le pool de connexion", e );
+        }
+
+        return new DAOFactory( connectionPool );
     }
 
     public Connection getConnection() throws SQLException {
-        Connection connexion = null;
 
-        connexion = DriverManager.getConnection( url, user, password );
-
-        return connexion;
+        return connectionPool.getConnection();
     }
 
     public ClientDao getClientDao() {
