@@ -10,6 +10,8 @@ public interface ClientDao {
 
     void supprimerClient( Client client );
 
+    void supprimerClientParID( Long id );
+
     List<Client> listerClient();
 
     Client trouverClientParID( Long id );

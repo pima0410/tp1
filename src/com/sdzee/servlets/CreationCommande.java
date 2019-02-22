@@ -49,18 +49,18 @@ public class CreationCommande extends HttpServlet {
 
         CreationCommandeForm form = new CreationCommandeForm( daoClient );
         Commande commande = form.creerCommande( request );
-        Map<String, Client> listClient = new HashMap<String, Client>();
+        Map<Long, Client> listClient = new HashMap<Long, Client>();
         Map<String, Commande> listCommande = new HashMap<String, Commande>();
 
         if ( form.getMapErreur().isEmpty() ) {
 
             HttpSession session = request.getSession();
-            listClient = (Map<String, Client>) session.getAttribute( SESSION_CLIENT );
+            listClient = (Map<Long, Client>) session.getAttribute( SESSION_CLIENT );
             if ( listClient == null ) {
-                listClient = new HashMap<String, Client>();
+                listClient = new HashMap<Long, Client>();
             }
 
-            listClient.put( commande.getClient().getNom(), commande.getClient() );
+            listClient.put( commande.getClient().getId(), commande.getClient() );
             session.setAttribute( SESSION_CLIENT, listClient );
 
             listCommande = (Map<String, Commande>) session.getAttribute( SESSION_COMMANDE );

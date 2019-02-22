@@ -14,6 +14,9 @@ import javax.servlet.http.HttpSession;
 
 import com.sdzee.beans.Client;
 import com.sdzee.beans.Commande;
+import com.sdzee.dao.ClientDao;
+import com.sdzee.dao.DAOFactory;
+import com.sdzee.form.FormUtil;
 
 /**
  * Servlet implementation class SuppressionClient
@@ -22,21 +25,33 @@ import com.sdzee.beans.Commande;
 public class SuppressionClient extends HttpServlet {
     private static final long   serialVersionUID = 1L;
 
-    private static final String PARAM_NOM_CLIENT = "nomClient";
+    private static final String PARAM_ID_CLIENT  = "nomClient";
     private static final String SESSION_CLIENT   = "listClient";
     private static final String SESSION_COMMANDE = "listCommande";
 
+    private static final String CONF_FACTORY_DAO = "dao_factory";
+
     private static final String VUE              = "/listeClients";
+
+    private ClientDao           daoClient;
+
+    @Override
+    public void init() throws ServletException {
+        this.daoClient = ( (DAOFactory) this.getServletContext().getAttribute( CONF_FACTORY_DAO ) ).getClientDao();
+    }
 
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-        Map<String, Client> listClient = (Map<String, Client>) session.getAttribute( SESSION_CLIENT );
+        Map<Long, Client> listClient = (Map<Long, Client>) session.getAttribute( SESSION_CLIENT );
         Map<String, Commande> listCommandeMap = (Map<String, Commande>) session.getAttribute( SESSION_COMMANDE );
 
-        String valueParam = request.getParameter( PARAM_NOM_CLIENT );
-        if ( valueParam != null && valueParam.trim().length() > 0 && !listClient.isEmpty() ) {
+        String valueParam = FormUtil.getParam( request, PARAM_ID_CLIENT );
+        if ( valueParam != null && !listClient.isEmpty() ) {
+            Long idClient = Long.parseLong( valueParam );
+            daoClient.supprimerClientParID( idClient );
+
             listClient.remove( valueParam );
             session.setAttribute( SESSION_CLIENT, listClient );
 

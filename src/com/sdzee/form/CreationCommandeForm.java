@@ -30,7 +30,7 @@ public class CreationCommandeForm {
     private static final String SESSION_CLIENT             = "listClient";
 
     private static final String CHAMP_CHOIX_NOUVEAU_CLIENT = "choixNouveauClient";
-    private static final String CHAMP_NOM_ANCIEN_CLIENT    = "nomAncienClient";
+    private static final String CHAMP_ID_ANCIEN_CLIENT     = "nomAncienClient";
 
     private static final String DATE_FORMAT                = "dd/MM/yyyy HH:mm:ss";
 
@@ -43,16 +43,19 @@ public class CreationCommandeForm {
     }
 
     public Commande creerCommande( HttpServletRequest request ) {
-        Client client;
+        Client client = null;
         CreationClientForm formClient = new CreationClientForm( clientDao );
 
         String choixNouveauClient = getParam( request, CHAMP_CHOIX_NOUVEAU_CLIENT );
         if ( choixNouveauClient != null && choixNouveauClient.equals( ANCIEN_CLIENT ) ) {
 
-            String nomAncienClient = getParam( request, CHAMP_NOM_ANCIEN_CLIENT );
-            HttpSession session = request.getSession();
-            Map<String, Client> listClientsMap = (Map<String, Client>) session.getAttribute( SESSION_CLIENT );
-            client = listClientsMap.get( nomAncienClient );
+            String idAncienClient = getParam( request, CHAMP_ID_ANCIEN_CLIENT );
+            if ( idAncienClient != null ) {
+                Long idClient = Long.parseLong( idAncienClient );
+                HttpSession session = request.getSession();
+                Map<Long, Client> listClientsMap = (Map<Long, Client>) session.getAttribute( SESSION_CLIENT );
+                client = listClientsMap.get( idClient );
+            }
 
         } else {
             client = formClient.creerClient( request );

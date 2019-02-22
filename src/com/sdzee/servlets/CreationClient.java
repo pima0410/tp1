@@ -27,7 +27,7 @@ public class CreationClient extends HttpServlet {
 
     private static final String CONF_DAO_FACTORY    = "dao_factory";
 
-    private Map<String, Client> listClient          = new HashMap<String, Client>();
+    private Map<Long, Client>   listClient          = new HashMap<Long, Client>();
 
     private ClientDao           dao;
 
@@ -47,13 +47,13 @@ public class CreationClient extends HttpServlet {
         Client client = form.creerClient( request );
         HttpSession session = request.getSession();
 
-        listClient = (Map<String, Client>) session.getAttribute( SESSION_CLIENT );
+        listClient = (Map<Long, Client>) session.getAttribute( SESSION_CLIENT );
         if ( listClient == null ) {
-            listClient = new HashMap<String, Client>();
+            listClient = new HashMap<Long, Client>();
         }
 
         if ( form.getMapErreur().isEmpty() ) {
-            listClient.put( client.getNom(), client );
+            listClient.put( client.getId(), client );
 
         }
         session.setAttribute( SESSION_CLIENT, listClient );

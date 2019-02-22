@@ -26,6 +26,13 @@ public class ClientDaoImpl implements ClientDao {
     }
 
     @Override
+    public void supprimerClientParID( Long id ) {
+
+        Client client = trouverClientParID( id );
+        supprimerClient( client );
+    }
+
+    @Override
     public void creerClient( Client client ) {
         ResultSet resultat = null;
         PreparedStatement preparedStatement = null;
@@ -139,6 +146,7 @@ public class ClientDaoImpl implements ClientDao {
     private Client mapClient( ResultSet resultat ) throws SQLException {
         Client client = new Client();
 
+        client.setId( resultat.getLong( "id" ) );
         client.setAdresse( resultat.getString( "adresse" ) );
         client.setEmail( resultat.getString( "email" ) );
         client.setNom( resultat.getString( "nom" ) );

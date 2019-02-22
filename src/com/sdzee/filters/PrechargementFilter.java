@@ -36,12 +36,12 @@ public class PrechargementFilter extends HttpFilter {
             throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpSession session = req.getSession();
-        if ( session.getAttribute( CONF_DAO_FACTORY ) == null ) {
+        if ( session.getAttribute( SESSION_LIST_CLIENT ) == null ) {
 
             List<Client> clients = clientDao.listerClient();
-            Map<String, Client> listClient = new HashMap<String, Client>();
+            Map<Long, Client> listClient = new HashMap<Long, Client>();
             for ( Client client : clients ) {
-                listClient.put( client.getNom(), client );
+                listClient.put( client.getId(), client );
             }
 
             session.setAttribute( SESSION_LIST_CLIENT, listClient );
