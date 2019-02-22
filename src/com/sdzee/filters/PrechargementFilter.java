@@ -34,17 +34,18 @@ public class PrechargementFilter extends HttpFilter {
     @Override
     public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
             throws IOException, ServletException {
-
         HttpServletRequest req = (HttpServletRequest) request;
-        List<Client> clients = clientDao.listerClient();
-        Map<String, Client> listClient = new HashMap<String, Client>();
-        for ( Client client : clients ) {
-            listClient.put( client.getNom(), client );
-        }
-
         HttpSession session = req.getSession();
+        if ( session.getAttribute( CONF_DAO_FACTORY ) == null ) {
 
-        session.setAttribute( SESSION_LIST_CLIENT, listClient );
+            List<Client> clients = clientDao.listerClient();
+            Map<String, Client> listClient = new HashMap<String, Client>();
+            for ( Client client : clients ) {
+                listClient.put( client.getNom(), client );
+            }
+
+            session.setAttribute( SESSION_LIST_CLIENT, listClient );
+        }
 
         chain.doFilter( request, response );
 
