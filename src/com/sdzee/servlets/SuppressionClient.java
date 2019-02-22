@@ -52,7 +52,7 @@ public class SuppressionClient extends HttpServlet {
             Long idClient = Long.parseLong( valueParam );
             daoClient.supprimerClientParID( idClient );
 
-            listClient.remove( valueParam );
+            listClient.remove( idClient );
             session.setAttribute( SESSION_CLIENT, listClient );
 
             if ( !listCommandeMap.isEmpty() ) {

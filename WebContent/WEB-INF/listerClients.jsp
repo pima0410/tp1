@@ -39,7 +39,7 @@
 				<td><c:out value="${listClient.value.telephone }" /></td>
 				<td><c:out value="${listClient.value.email }" /></td>
 				
-				<td class="action"><a href="<c:url value="/suppressionClients" ><c:param name="nomClient" value="${listClient.value.nom }"></c:param></c:url>"><img alt="Supprimer" src="<c:url value="/inc/supprimer.png"/>"></a></td>
+				<td class="action"><a href="<c:url value="/suppressionClients" ><c:param name="nomClient" value="${listClient.value['id'] }"></c:param></c:url>"><img alt="Supprimer" src="<c:url value="/inc/supprimer.png"/>"></a></td>
 				
 				
 				
