@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.sdzee.beans.Client;
 import com.sdzee.beans.Commande;
 import com.sdzee.dao.ClientDao;
+import com.sdzee.dao.CommandeDao;
 import com.sdzee.dao.DAOFactory;
 import com.sdzee.form.FormUtil;
 
@@ -34,6 +35,7 @@ public class SuppressionClient extends HttpServlet {
     private static final String VUE              = "/listeClients";
 
     private ClientDao           daoClient;
+    private CommandeDao         daoCommande;
 
     @Override
     public void init() throws ServletException {
@@ -45,7 +47,7 @@ public class SuppressionClient extends HttpServlet {
 
         HttpSession session = request.getSession();
         Map<Long, Client> listClient = (Map<Long, Client>) session.getAttribute( SESSION_CLIENT );
-        Map<String, Commande> listCommandeMap = (Map<String, Commande>) session.getAttribute( SESSION_COMMANDE );
+        Map<Long, Commande> listCommandeMap = (Map<Long, Commande>) session.getAttribute( SESSION_COMMANDE );
 
         String valueParam = FormUtil.getParam( request, PARAM_ID_CLIENT );
         if ( valueParam != null && !listClient.isEmpty() ) {
@@ -55,17 +57,19 @@ public class SuppressionClient extends HttpServlet {
             listClient.remove( idClient );
             session.setAttribute( SESSION_CLIENT, listClient );
 
-            if ( !listCommandeMap.isEmpty() ) {
-                List<String> listeDateToDelete = new ArrayList<String>();
+            if ( listCommandeMap != null && !listCommandeMap.isEmpty() ) {
+                List<Long> listeIdCommandeToDelete = new ArrayList<Long>();
 
-                for ( Entry<String, Commande> commande : listCommandeMap.entrySet() ) {
-                    if ( commande.getValue().getClient().getNom().equals( valueParam ) ) {
-                        listeDateToDelete.add( commande.getValue().getDate() );
+                for ( Entry<Long, Commande> commande : listCommandeMap.entrySet() ) {
+                    if ( commande.getValue().getClient().getId() == idClient ) {
+                        listeIdCommandeToDelete.add( commande.getValue().getId() );
                     }
 
                 }
-                for ( String dateString : listeDateToDelete ) {
-                    listCommandeMap.remove( dateString );
+                for ( Long idCommandeToDelete : listeIdCommandeToDelete ) {
+                    listCommandeMap.remove( idCommandeToDelete );
+                    daoCommande.supprimerCommandeParID( idCommandeToDelete );
+
                 }
                 session.setAttribute( SESSION_COMMANDE, listCommandeMap );
             }

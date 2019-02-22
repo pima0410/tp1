@@ -76,4 +76,8 @@ public class DAOFactory {
         return new ClientDaoImpl( this );
     }
 
+    public CommandeDao getCommandeDao() {
+        return new CommandeDaoImpl( this );
+    }
+
 }

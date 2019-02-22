@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.sdzee.beans.Client;
 import com.sdzee.beans.Commande;
 import com.sdzee.dao.ClientDao;
+import com.sdzee.dao.CommandeDao;
 import com.sdzee.dao.DAOFactory;
 import com.sdzee.form.CreationCommandeForm;
 
@@ -29,6 +30,7 @@ public class CreationCommande extends HttpServlet {
     private static final String VUE_FORM_COMMANDE     = "/WEB-INF/creationCommande.jsp";
 
     private ClientDao           daoClient;
+    private CommandeDao         daoCommande;
 
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
@@ -47,10 +49,10 @@ public class CreationCommande extends HttpServlet {
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
             throws ServletException, IOException {
 
-        CreationCommandeForm form = new CreationCommandeForm( daoClient );
+        CreationCommandeForm form = new CreationCommandeForm( daoClient, daoCommande );
         Commande commande = form.creerCommande( request );
         Map<Long, Client> listClient = new HashMap<Long, Client>();
-        Map<String, Commande> listCommande = new HashMap<String, Commande>();
+        Map<Long, Commande> listCommande = new HashMap<Long, Commande>();
 
         if ( form.getMapErreur().isEmpty() ) {
 
@@ -63,12 +65,12 @@ public class CreationCommande extends HttpServlet {
             listClient.put( commande.getClient().getId(), commande.getClient() );
             session.setAttribute( SESSION_CLIENT, listClient );
 
-            listCommande = (Map<String, Commande>) session.getAttribute( SESSION_COMMANDE );
+            listCommande = (Map<Long, Commande>) session.getAttribute( SESSION_COMMANDE );
             if ( listCommande == null ) {
-                listCommande = new HashMap<String, Commande>();
+                listCommande = new HashMap<Long, Commande>();
             }
 
-            listCommande.put( commande.getDate(), commande );
+            listCommande.put( commande.getId(), commande );
 
             session.setAttribute( SESSION_COMMANDE, listCommande );
 
@@ -90,6 +92,7 @@ public class CreationCommande extends HttpServlet {
     public void init() throws ServletException {
 
         daoClient = ( (DAOFactory) this.getServletContext().getAttribute( CONF_DAO_FACTORY ) ).getClientDao();
+        daoCommande = ( (DAOFactory) this.getServletContext().getAttribute( CONF_DAO_FACTORY ) ).getCommandeDao();
 
     }
 

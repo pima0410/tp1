@@ -101,12 +101,8 @@ public class ClientDaoImpl implements ClientDao {
             resultat = preparedStatement.executeQuery();
 
             if ( resultat.next() ) {
-                client.setId( id );
-                client.setAdresse( resultat.getString( "adresse" ) );
-                client.setEmail( resultat.getString( "email" ) );
-                client.setNom( resultat.getString( "nom" ) );
-                client.setPrenom( resultat.getString( "prenom" ) );
-                client.setTelephone( resultat.getString( "telephone" ) );
+                client = mapClient( resultat );
+
             }
 
         } catch ( SQLException e ) {

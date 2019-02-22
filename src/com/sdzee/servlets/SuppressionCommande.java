@@ -10,12 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.sdzee.beans.Client;
+import com.sdzee.dao.CommandeDao;
+import com.sdzee.form.FormUtil;
 
 public class SuppressionCommande extends HttpServlet {
 
-    private static final String PARAM_DATE_COMMANDE = "dateCommande";
-    private static final String SESSION_COMMANDE    = "listCommande";
-    private static final String VUE                 = "/listeCommandes";
+    private static final String PARAM_ID_COMMANDE = "idCommande";
+    private static final String SESSION_COMMANDE  = "listCommande";
+    private static final String VUE               = "/listeCommandes";
+
+    private CommandeDao         commandeDao;
 
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
@@ -24,8 +28,10 @@ public class SuppressionCommande extends HttpServlet {
         HttpSession session = request.getSession();
         Map<String, Client> listCommandeMap = (Map<String, Client>) session.getAttribute( SESSION_COMMANDE );
 
-        String valueParam = request.getParameter( PARAM_DATE_COMMANDE );
-        if ( valueParam != null && valueParam.trim().length() > 0 && !listCommandeMap.isEmpty() ) {
+        String valueParam = FormUtil.getParam( request, PARAM_ID_COMMANDE );
+        if ( valueParam != null && !listCommandeMap.isEmpty() ) {
+            Long idCommande = Long.parseLong( valueParam );
+            commandeDao.supprimerCommandeParID( idCommande );
             listCommandeMap.remove( valueParam );
             session.setAttribute( SESSION_COMMANDE, listCommandeMap );
 

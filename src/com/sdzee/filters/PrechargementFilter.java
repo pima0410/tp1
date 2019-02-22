@@ -15,20 +15,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.sdzee.beans.Client;
+import com.sdzee.beans.Commande;
 import com.sdzee.dao.ClientDao;
+import com.sdzee.dao.CommandeDao;
 import com.sdzee.dao.DAOFactory;
 
 public class PrechargementFilter extends HttpFilter {
 
-    private static final String CONF_DAO_FACTORY    = "dao_factory";
-    private static final String SESSION_LIST_CLIENT = "listClient";
+    private static final String CONF_DAO_FACTORY      = "dao_factory";
+    private static final String SESSION_LIST_CLIENT   = "listClient";
+    private static final String SESSION_LIST_COMMANDE = "listCommandet";
     private ClientDao           clientDao;
+    private CommandeDao         commandeDao;
 
     @Override
     public void init( FilterConfig config ) throws ServletException {
         // TODO Auto-generated method stub
         DAOFactory factory = (DAOFactory) config.getServletContext().getAttribute( CONF_DAO_FACTORY );
         clientDao = factory.getClientDao();
+        commandeDao = factory.getCommandeDao();
     }
 
     @Override
@@ -45,6 +50,16 @@ public class PrechargementFilter extends HttpFilter {
             }
 
             session.setAttribute( SESSION_LIST_CLIENT, listClient );
+        }
+
+        if ( session.getAttribute( SESSION_LIST_COMMANDE ) == null ) {
+            List<Commande> commandes = commandeDao.listerCommande();
+            Map<Long, Commande> listCommande = new HashMap<Long, Commande>();
+            for ( Commande commande : commandes ) {
+                listCommande.put( commande.getId(), commande );
+            }
+            session.setAttribute( SESSION_LIST_COMMANDE, listCommande );
+
         }
 
         chain.doFilter( request, response );

@@ -9,12 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import com.sdzee.beans.Client;
 import com.sdzee.beans.Commande;
 import com.sdzee.dao.ClientDao;
+import com.sdzee.dao.CommandeDao;
 
 public class CreationCommandeForm {
 
@@ -36,10 +35,12 @@ public class CreationCommandeForm {
 
     private Map<String, String> mapErreur                  = new HashMap<String, String>();
     private ClientDao           clientDao;
+    private CommandeDao         commandeDao;
 
-    public CreationCommandeForm( ClientDao clientDao ) {
+    public CreationCommandeForm( ClientDao clientDao, CommandeDao commandeDao ) {
 
         this.clientDao = clientDao;
+        this.commandeDao = commandeDao;
     }
 
     public Commande creerCommande( HttpServletRequest request ) {
@@ -76,9 +77,6 @@ public class CreationCommandeForm {
         // On ne récupere pas la date
         DateTime dt = new DateTime();
 
-        DateTimeFormatter fmt = DateTimeFormat.forPattern( DATE_FORMAT );
-        date = fmt.print( dt );
-
         try {
             montantValeur = verifMontant( montant );
         } catch ( Exception e ) {
@@ -109,13 +107,17 @@ public class CreationCommandeForm {
             mapErreur.put( CHAMP_STATUT_LIVRAISON, e.getMessage() );
         }
 
-        commande.setDate( date );
+        commande.setDate( dt );
         commande.setModeLivraison( modeLivraison );
         commande.setModePaiement( modePaiement );
-        commande.setMontant( montant );
+        commande.setMontant( montantValeur );
         commande.setStatutLivraison( statutLivraison );
         commande.setStatutPaiement( statutPaiement );
         commande.setClient( client );
+
+        if ( mapErreur.isEmpty() ) {
+            commandeDao.creerCommande( commande );
+        }
 
         return commande;
     }
