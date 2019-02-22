@@ -36,7 +36,7 @@ public class SuppressionCommande extends HttpServlet {
         HttpSession session = request.getSession();
         Map<String, Client> listCommandeMap = (Map<String, Client>) session.getAttribute( SESSION_COMMANDE );
 
-        String valueParam = FormUtil.getParam( request, PARAM_ID_COMMANDE );
+        String valueParam = FormUtil.getParam( request, PARAM_ID_COMMANDE );// sd
         if ( valueParam != null && !listCommandeMap.isEmpty() ) {
             Long idCommande = Long.parseLong( valueParam );
             commandeDao.supprimerCommandeParID( idCommande );
