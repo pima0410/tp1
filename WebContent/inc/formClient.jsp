@@ -17,7 +17,7 @@
 	<br />
 	
 	<label for="telephone">Numéro de téléphone <span class="requis">*</span></label>
-	<input type="text" name="telephone" id="telephone" value="<c:out value="${requestScope.client.telephone }" />" size="20" maxlength="20" />
+	<input type="text" name="telephone" id="telephone" value="<c:out value="${requestScope.client.telephone }" />" size="20" maxlength="10" />
 	<span class="erreur">${erreur['telephone'] }</span>
 	<br />
 	

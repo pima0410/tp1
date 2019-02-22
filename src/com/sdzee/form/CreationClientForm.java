@@ -113,8 +113,8 @@ public class CreationClientForm {
 
         } else if ( !tel.matches( "^\\d+$" ) ) {
             throw new Exception( "Le numéro de telephone doit contenir des caracteres numériques " );
-        } else if ( tel.length() < 4 ) {
-            throw new Exception( "Le numéro de telephone doit contenir au moins 4 caracteres" );
+        } else if ( tel.length() < 4 || tel.length() > 10 ) {
+            throw new Exception( "Le numéro de telephone doit contenir entre 4 et 10 caracteres" );
         }
     }
 
